@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+    /* Paleta clásica: fondo crema, acento burdeos/granate */
+    --color-retro-amarillo: #2563a8;        /* Acento principal: azul marino clásico */
+    --color-retro-oscuro: #f5f0e8;          /* Fondo principal: papel crema */
+    --color-retro-gris: #fffef7;            /* Fondo tarjetas: blanco cálido */
+    --color-retro-texto: #1a1a2e;           /* Texto principal: casi negro azulado */
+
+    --font-heading: "Outfit", sans-serif;
+    --font-body: "Inter", sans-serif;
+}
+
+@layer base {
+    body {
+        @apply bg-retro-oscuro text-retro-texto font-body min-h-screen antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-heading tracking-tight;
+    }
+}
+
+@layer components {
+    .btn-retro-primary {
+        @apply bg-retro-amarillo text-white font-bold py-2 px-4 rounded hover:bg-blue-800 transition-colors cursor-pointer shadow-lg shadow-blue-900/20;
+    }
+
+    .btn-retro-secondary {
+        @apply border-2 border-retro-amarillo text-retro-amarillo font-bold py-2 px-4 rounded hover:bg-retro-amarillo hover:text-white transition-all cursor-pointer;
+    }
+
+    .contenedor {
+        @apply max-w-6xl mx-auto px-4 py-8;
+    }
+
+    .tarjeta-retro {
+        @apply bg-retro-gris border-2 border-stone-200 rounded-lg p-6 hover:border-retro-amarillo transition-all shadow-xl;
+    }
+}
+
+/* Clases auxiliares para el grid de productos */
+.products-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+}

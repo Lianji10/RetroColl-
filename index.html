@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroColl - Marketplace Retro</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- BARRA DE NAVEGACION -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo-section">
+                <h1 class="logo">RetroColl</h1>
+                <p class="slogan">Tu tienda de videojuegos retro</p>
+            </div>
+            <div class="navbar-links">
+                <a href="#" data-page="home">Inicio</a>
+                <a href="#" data-page="categorias">Categorías</a>
+                <a href="#" data-page="productos">Productos</a>
+                <a href="#" data-page="vender">Venta</a>
+                <a href="#" data-page="login" class="btn-login">Iniciar Sesión</a>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="container">
+        <!-- PAGINA PRINCIPAL -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <h2>Compra y vende videojuegos retro</h2>
+                <p>La mejor comunidad de coleccionistas</p>
+                <div class="search-hero">
+                    <input type="text" id="busquedaPrincipal" placeholder="Buscar juegos...">
+                    <button class="btn-primary" id="btnBuscar">Buscar</button>
+                </div>
+            </div>
+
+            <div class="destacados-home">
+                <h3>Juegos destacados</h3>
+                <div class="products-grid" id="productosHome"></div>
+            </div>
+
+            <div class="info-sections">
+                <div class="info-card">
+                    <h3>Compra segura</h3>
+                    <p>Todos los vendedores están verificados</p>
+                </div>
+                <div class="info-card">
+                    <h3>Envío rápido</h3>
+                    <p>Recibe tus juegos en 24-48h</p>
+                </div>
+                <div class="info-card">
+                    <h3>Mejores precios</h3>
+                    <p>Encuentra las mejores ofertas</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGINA LOGIN -->
+        <section id="login" class="page">
+            <div class="auth-container">
+                <h2>Iniciar Sesión</h2>
+                <form id="formLogin" class="auth-form">
+                    <label>Email:</label>
+                    <input type="email" name="email" required placeholder="tu@email.com">
+
+                    <label>Contraseña:</label>
+                    <input type="password" name="password" required placeholder="Contraseña">
+
+                    <button type="submit" class="btn-primary">Entrar</button>
+                </form>
+                <p class="auth-link">¿No tienes cuenta? <a href="#" data-page="registro">Regístrate aquí</a></p>
+            </div>
+        </section>
+
+        <!-- PAGINA REGISTRO -->
+        <section id="registro" class="page">
+            <div class="auth-container">
+                <h2>Crear Cuenta</h2>
+                <form id="formRegistro" class="auth-form">
+                    <label>Nombre completo:</label>
+                    <input type="text" name="nombre" required placeholder="Juan Pérez">
+                    
+                    <label>Email:</label>
+                    <input type="email" name="email" required placeholder="tu@email.com">
+                    
+                    <label>Contraseña:</label>
+                    <input type="password" name="password" required placeholder="Contraseña">
+                    
+                    <label>Repetir contraseña:</label>
+                    <input type="password" name="password2" required placeholder="Repetir contraseña">
+                    
+                    <button type="submit" class="btn-primary">Registrarse</button>
+                </form>
+                <p class="auth-link">¿Ya tienes cuenta? <a href="#" data-page="login">Inicia sesión</a></p>
+            </div>
+        </section>
+
+        <!-- PAGINA PERFIL -->
+        <section id="perfil" class="page">
+            <h2>Mi Perfil</h2>
+            <div class="profile-container">
+                <div class="profile-info">
+                    <div class="profile-avatar">USUARIO</div>
+                    <h3>Juan Mendoza</h3>
+                    <p class="profile-email">juan@email.com</p>
+                    <p class="profile-fecha">Miembro desde: Enero 2023</p>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-card">
+                        <h4>8</h4>
+                        <p>Juegos vendidos</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>15</h4>
+                        <p>Juegos comprados</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>4.8</h4>
+                        <p>Valoración</p>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="btn-primary" data-page="vender">Vender juego</button>
+                    <button class="btn-secondary">Editar perfil</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGINA CATEGORIAS -->
+        <section id="categorias" class="page">
+            <h2>Categorías</h2>
+            <p class="subtitle">Explora nuestras categorías de juegos retro</p>
+            
+            <div class="categorias-grid">
+                <div class="categoria-grande" data-categoria="plataformas">
+                    <h3>Plataformas</h3>
+                    <p>Mario, Sonic, Crash Bandicoot...</p>
+                    <span class="categoria-count">45 juegos</span>
+                </div>
+                
+                <div class="categoria-grande" data-categoria="rpg">
+                    <h3>RPG</h3>
+                    <p>Final Fantasy, Pokémon, Zelda...</p>
+                    <span class="categoria-count">38 juegos</span>
+                </div>
+                
+                <div class="categoria-grande" data-categoria="accion">
+                    <h3>Acción</h3>
+                    <p>Doom, Contra, Metal Slug...</p>
+                    <span class="categoria-count">52 juegos</span>
+                </div>
+                
+                <div class="categoria-grande" data-categoria="aventura">
+                    <h3>Aventura</h3>
+                    <p>Metroid, Castlevania, Resident Evil...</p>
+                    <span class="categoria-count">34 juegos</span>
+                </div>
+                
+                <div class="categoria-grande" data-categoria="deportes">
+                    <h3>Deportes</h3>
+                    <p>FIFA, Pro Evolution, NBA...</p>
+                    <span class="categoria-count">28 juegos</span>
+                </div>
+                
+                <div class="categoria-grande" data-categoria="carreras">
+                    <h3>Carreras</h3>
+                    <p>Mario Kart, Gran Turismo, F-Zero...</p>
+                    <span class="categoria-count">26 juegos</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGINA PRODUCTOS -->
+        <section id="productos" class="page">
+            <h2>Todos los juegos</h2>
+            
+            <div class="productos-controles">
+                <div class="filters">
+                    <select id="filtroCategoria">
+                        <option value="">Todas las categorías</option>
+                        <option value="plataformas">Plataformas</option>
+                        <option value="rpg">RPG</option>
+                        <option value="accion">Acción</option>
+                        <option value="aventura">Aventura</option>
+                        <option value="deportes">Deportes</option>
+                        <option value="carreras">Carreras</option>
+                    </select>
+                    <select id="filtroPrecio">
+                        <option value="">Cualquier precio</option>
+                        <option value="0-30">0€ - 30€</option>
+                        <option value="30-60">30€ - 60€</option>
+                        <option value="60-100">60€ - 100€</option>
+                        <option value="100-300">100€ - 300€</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productosLista"></div>
+        </section>
+
+        <!-- PAGINA VENDER -->
+        <section id="vender" class="page">
+            <div class="form-container">
+                <h2>Vender videojuego</h2>
+                <form id="formVender">
+                    <label>Título del juego:</label>
+                    <input type="text" name="titulo" required placeholder="Ej: Super Mario 64">
+                    
+                    <label>Categoría:</label>
+                    <select name="categoria" required>
+                        <option value="">Selecciona una categoría</option>
+                        <option value="plataformas">Plataformas</option>
+                        <option value="rpg">RPG</option>
+                        <option value="accion">Acción</option>
+                        <option value="aventura">Aventura</option>
+                        <option value="deportes">Deportes</option>
+                        <option value="carreras">Carreras</option>
+                    </select>
+                    
+                    <label>Plataforma:</label>
+                    <select name="plataforma" required>
+                        <option value="">Selecciona la consola</option>
+                        <option value="nes">Nintendo NES</option>
+                        <option value="snes">Super Nintendo</option>
+                        <option value="n64">Nintendo 64</option>
+                        <option value="gamecube">GameCube</option>
+                        <option value="gameboy">Game Boy / GBC / GBA</option>
+                        <option value="ps1">PlayStation 1</option>
+                        <option value="ps2">PlayStation 2</option>
+                        <option value="psp">PSP</option>
+                        <option value="megadrive">Sega Mega Drive</option>
+                        <option value="dreamcast">Dreamcast</option>
+                        <option value="xbox">Xbox Original</option>
+                    </select>
+                    
+                    <label>Precio (€):</label>
+                    <input type="number" name="precio" required placeholder="45">
+                    
+                    <label>Estado:</label>
+                    <select name="estado" required>
+                        <option value="">Selecciona el estado</option>
+                        <option value="nuevo">Nuevo - Sellado</option>
+                        <option value="como-nuevo">Como nuevo - Con caja</option>
+                        <option value="bueno">Buen estado - Con caja</option>
+                        <option value="sin-caja">Buen estado - Sin caja</option>
+                        <option value="aceptable">Estado aceptable</option>
+                    </select>
+
+                    <label>Certificado de Autenticidad</label>
+                    <input type="file" name="certificado" required>
+                    
+                    <label>Descripción:</label>
+                    <textarea name="descripcion" required placeholder="Describe el estado del juego..."></textarea>
+                    
+                    <button type="submit" class="btn-primary">Publicar juego</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- PIE DE PAGINA -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>RetroColl</h4>
+                <p>Tu tienda de videojuegos retro favoritas </p>
+            </div>
+            <div class="footer-section">
+                <h4>Enlaces</h4>
+                <a href="#" data-page="home">Inicio</a>
+                <a href="#" data-page="categorias">Categorías</a>
+                <a href="#" data-page="productos">Productos</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <p>Email: retrocoll@gmail.com</p>
+                <p>Tel: 679 867 451</p>
+            </div>
+        </div>
+        <p class="footer-copy">RetroColl - Juan Fernández Puchol :)</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
