@@ -1,3 +1,21 @@
+<script setup>
+import { useAuthStore } from '../stores/authStore';
+
+const authStore = useAuthStore();
+
+defineProps({
+  abierto: Boolean,
+  items: Array,
+  total:  Number
+})
+
+const emits = defineEmits(['cerrar', 'eliminar', 'vaciar', 'checkout'])
+
+const esMio = (item) => {
+  return authStore.isAuthenticated && authStore.user?.id_usuario === item.id_vendedor
+}
+</script>
+
 <template>
   <Transition name="fade">
     <div v-if="abierto" class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm" @click="emits('cerrar')"></div>
@@ -17,7 +35,11 @@
 
       <div class="flex-1 overflow-y-auto pr-2 space-y-4">
         <div v-if="items.length === 0" class="h-full flex flex-col items-center justify-center opacity-30 text-center">
-          <span class="text-6xl mb-4">🛒</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-stone-300 mb-4" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
           <p class="font-bold uppercase tracking-widest text-xs text-stone-400">El carrito está vacío</p>
         </div>
 
@@ -41,15 +63,10 @@
                 </svg>
               </button>
             </div>
-            <p class="text-retro-amarillo font-bold text-lg mb-2">{{ item.precio }}€</p>
-
-            <div class="flex items-center gap-3 mt-auto">
-              <button @click="emits('cambiar-cantidad', { id: item.id, delta: -1 })"
-                class="w-6 h-6 rounded bg-stone-200 flex items-center justify-center hover:bg-stone-300 transition-colors text-retro-texto font-bold">-</button>
-              <span class="text-sm font-mono text-retro-texto">{{ item.cantidad }}</span>
-              <button @click="emits('cambiar-cantidad', { id: item.id, delta: 1 })"
-                class="w-6 h-6 rounded bg-stone-200 flex items-center justify-center hover:bg-stone-300 transition-colors text-retro-texto font-bold">+</button>
+            <div v-if="esMio(item)" class="mt-1">
+              <span class="bg-red-50 text-[#B22222] text-[10px] px-2 py-0.5 rounded border border-red-200 font-bold uppercase">Tu producto</span>
             </div>
+            <p class="text-retro-amarillo font-bold text-lg mt-auto">{{ item.precio }}€</p>
           </div>
         </div>
       </div>
@@ -75,16 +92,6 @@
     </aside>
   </Transition>
 </template>
-
-<script setup>
-defineProps({
-  abierto: Boolean,
-  items: Array,
-  total: Number
-})
-
-const emits = defineEmits(['cerrar', 'eliminar', 'cambiar-cantidad', 'vaciar', 'checkout'])
-</script>
 
 <style scoped>
 .fade-enter-active,

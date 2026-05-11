@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('auth', {
   }),
   getters: {
     isAuthenticated: (state) => !!state.token,
+    isAdmin: (state) => state.user?.rol === 'admin',
   },
   actions: {
     async login(email, password) {
@@ -54,6 +55,18 @@ export const useAuthStore = defineStore('auth', {
           localStorage.removeItem('token');
           localStorage.removeItem('user');
         }
+      }
+    },
+
+    async actualizarPerfil(datos) {
+      try {
+        const response = await api.put('/perfil', datos);
+        this.user = response.data.usuario;
+        localStorage.setItem('user', JSON.stringify(this.user));
+        return response.data;
+      } catch (error) {
+        console.error('Error al actualizar perfil:', error.response?.data || error.message);
+        throw error;
       }
     },
 

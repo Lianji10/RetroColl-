@@ -1,3 +1,42 @@
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import TarjetaProducto from '../components/TarjetaProducto.vue'
+import api from '../services/api'
+
+const router = useRouter()
+
+const busqueda = ref('')
+const productos = ref([])
+
+const cargarDatos = async () => {
+  try {
+    const res = await api.get('/productos')
+    productos.value = res.data
+  } catch (error) {
+    console.error('Error cargando destacados:', error)
+  }
+}
+
+onMounted(() => {
+  cargarDatos()
+})
+
+const productosDestacados = computed(() => {
+  // Filtramos los vendidos y tomamos los últimos 4 insertados
+  return productos.value.filter(p => p.estado !== 'Vendido').slice(0, 4)
+})
+
+const buscar = () => {
+  const query = busqueda.value.trim()
+  if (query) {
+    router.push({ path: '/productos', query: { busqueda: query } })
+  } else {
+    router.push('/productos')
+  }
+}
+</script>
+
 <template>
   <section id="inicio" class="contenedor animate-in fade-in duration-700">
     <!-- Hero Section -->
@@ -13,8 +52,9 @@
       </p>
       <div class="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto justify-center">
         <input type="text" v-model="busqueda" placeholder="¿Qué joya buscas hoy?..."
+          @keyup.enter="buscar"
           class="flex-1 bg-stone-50 border-2 border-stone-200 rounded-lg px-4 py-3 text-retro-texto placeholder-stone-400 focus:border-retro-amarillo outline-none transition-all">
-        <button class="btn-retro-primary px-8">Buscar</button>
+        <button @click="buscar" class="btn-retro-primary px-8">Buscar</button>
       </div>
     </div>
 
@@ -30,8 +70,7 @@
       </div>
 
       <div class="products-grid">
-        <TarjetaProducto v-for="producto in productosDestacados" :key="producto.id" :producto="producto"
-          @añadir="(p) => emits('añadir-al-carrito', p)" />
+        <TarjetaProducto v-for="producto in productosDestacados" :key="producto.id" :producto="producto" />
       </div>
     </div>
 
@@ -75,31 +114,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import { ref, computed, onMounted } from 'vue'
-import TarjetaProducto from '../components/TarjetaProducto.vue'
-import api from '../services/api'
-
-const emits = defineEmits(['añadir-al-carrito'])
-const busqueda = ref('')
-const productos = ref([])
-
-const cargarDatos = async () => {
-  try {
-    const res = await api.get('/productos')
-    productos.value = res.data
-  } catch (error) {
-    console.error('Error cargando destacados:', error)
-  }
-}
-
-onMounted(() => {
-  cargarDatos()
-})
-
-const productosDestacados = computed(() => {
-  // Tomamos los últimos 4 productos insertados como 'Destacados'
-  return productos.value.slice(0, 4)
-})
-</script>

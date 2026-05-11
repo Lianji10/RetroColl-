@@ -1,19 +1,46 @@
+<script setup>
+import { RouterLink, useRoute } from 'vue-router'
+import { useAuthStore } from '../stores/authStore'
+
+const authStore = useAuthStore()
+const route = useRoute()
+
+defineProps({
+  cantidadCarrito: {
+    type: Number,
+    required: true
+  }
+})
+
+const emits = defineEmits(['toggleCarrito'])
+</script>
+
 <template>
   <nav class="bg-retro-gris border-b-4 border-retro-amarillo sticky top-0 z-50 shadow-md">
     <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-4">
         <h1 class="text-3xl font-bold text-retro-amarillo tracking-wider">RetroColl</h1>
-        <p class="hidden sm:block text-stone-400 text-sm italic">Tu tienda de videojuegos retro</p>
       </div>
       <div class="flex flex-wrap justify-center items-center gap-2 sm:gap-6">
         <router-link to="/"
-          class="text-stone-600 hover:text-retro-amarillo transition-colors px-3 py-2 rounded-md hover:bg-blue-50">Inicio</router-link>
+          class="text-stone-600 hover:text-retro-amarillo transition-colors px-3 py-2 rounded-md hover:bg-red-50">Inicio</router-link>
         <router-link to="/categorias"
-          class="text-stone-600 hover:text-retro-amarillo transition-colors px-3 py-2 rounded-md hover:bg-blue-50">Categorías</router-link>
+          class="text-stone-600 hover:text-retro-amarillo transition-colors px-3 py-2 rounded-md hover:bg-red-50">Categorías</router-link>
         <router-link to="/productos"
-          class="text-stone-600 hover:text-retro-amarillo transition-colors px-3 py-2 rounded-md hover:bg-blue-50">Productos</router-link>
+          class="text-stone-600 hover:text-retro-amarillo transition-colors px-3 py-2 rounded-md hover:bg-red-50">Productos</router-link>
         <router-link v-if="authStore.isAuthenticated" to="/venta"
-          class="text-stone-600 hover:text-retro-amarillo transition-colors px-3 py-2 rounded-md hover:bg-blue-50">Venta</router-link>
+          :active-class="route.query.edit ? '' : 'router-link-active'"
+          class="text-stone-600 hover:text-retro-amarillo transition-colors px-3 py-2 rounded-md hover:bg-red-50">Venta</router-link>
+
+        <router-link v-if="authStore.isAdmin" to="/dashboard"
+          class="text-white bg-retro-amarillo hover:bg-[#8B1111] transition-colors px-3 py-2 rounded-md font-bold text-sm flex items-center gap-1.5 shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd" />
+          </svg>
+          Admin
+        </router-link>
 
         <!-- Carrito -->
         <button @click="emits('toggleCarrito')"
@@ -29,35 +56,20 @@
         </button>
 
         <router-link v-if="!authStore.isAuthenticated" to="/login"
-          class="bg-retro-amarillo text-white font-bold px-4 py-2 rounded shadow-lg hover:bg-blue-800 transition-all transform hover:scale-105">Iniciar
+          class="bg-retro-amarillo text-white font-bold px-4 py-2 rounded shadow-lg hover:bg-[#8B1111] transition-all transform hover:scale-105">Iniciar
           Sesión</router-link>
         <router-link v-else to="/perfil"
-          class="bg-retro-amarillo text-white font-bold px-4 py-2 rounded shadow-lg hover:bg-blue-800 transition-all transform hover:scale-105">Mi Perfil</router-link>
+          class="bg-retro-amarillo text-white font-bold px-4 py-2 rounded shadow-lg hover:bg-[#8B1111] transition-all transform hover:scale-105">Mi
+          Perfil</router-link>
       </div>
     </div>
   </nav>
 </template>
 
-<script setup>
-import { RouterLink } from 'vue-router'
-import { useAuthStore } from '../stores/authStore'
-
-const authStore = useAuthStore()
-
-defineProps({
-  cantidadCarrito: {
-    type: Number,
-    required: true
-  }
-})
-
-const emits = defineEmits(['toggleCarrito'])
-</script>
-
 <style scoped>
 @reference "../assets/tailwind.css";
 
 .router-link-active {
-  @apply text-retro-amarillo bg-blue-50;
+  @apply text-retro-amarillo bg-red-50;
 }
 </style>

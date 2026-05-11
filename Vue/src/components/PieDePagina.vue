@@ -1,3 +1,8 @@
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
+
+
 <template>
   <footer class="bg-stone-100 border-t-4 border-retro-amarillo text-stone-500 mt-12 py-10 px-4">
     <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-10">
@@ -12,6 +17,7 @@
           <router-link to="/categorias"
             class="hover:text-retro-amarillo transition-colors w-fit">Categorías</router-link>
           <router-link to="/productos" class="hover:text-retro-amarillo transition-colors w-fit">Productos</router-link>
+          <router-link to="/ayuda" class="hover:text-retro-amarillo transition-colors w-fit font-bold">Ayuda / FAQ</router-link>
         </div>
       </div>
       <div class="space-y-3">
@@ -26,6 +32,3 @@
   </footer>
 </template>
 
-<script setup>
-import { RouterLink } from 'vue-router'
-</script>

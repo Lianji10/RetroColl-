@@ -66,4 +66,40 @@ class AuthController extends Controller
             'message' => 'Sesión cerrada correctamente.',
         ]);
     }
+
+    public function actualizarPerfil(Request $request)
+    {
+        $usuario = $request->user();
+
+        $request->validate([
+            'nombre' => 'sometimes|required|string|max:100',
+            'email' => 'sometimes|required|string|email|max:100|unique:USUARIO,email,' . $usuario->id_usuario . ',id_usuario',
+            'password_actual' => 'required_with:password|string',
+            'password' => 'sometimes|required|string|min:8',
+        ]);
+
+        if ($request->filled('password')) {
+            if (!Hash::check($request->password_actual, $usuario->password)) {
+                throw ValidationException::withMessages([
+                    'password_actual' => ['La contraseña actual es incorrecta.'],
+                ]);
+            }
+            $usuario->password = Hash::make($request->password);
+        }
+
+        if ($request->has('nombre')) {
+            $usuario->nombre = $request->nombre;
+        }
+
+        if ($request->has('email')) {
+            $usuario->email = $request->email;
+        }
+
+        $usuario->save();
+
+        return response()->json([
+            'message' => 'Perfil actualizado correctamente.',
+            'usuario' => $usuario,
+        ]);
+    }
 }

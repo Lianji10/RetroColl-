@@ -1,3 +1,34 @@
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/authStore'
+
+const nombre = ref('')
+const email = ref('')
+const password = ref('')
+const passwordConfirm = ref('')
+const router = useRouter()
+const authStore = useAuthStore()
+const errorMsg = ref('')
+
+const registro = async () => {
+  errorMsg.value = ''
+  if (password.value !== passwordConfirm.value) {
+    errorMsg.value = 'Las contraseñas no coinciden'
+    return
+  }
+  try {
+    const success = await authStore.register(nombre.value, email.value, password.value)
+    if (success) {
+      router.push('/perfil')
+    }
+  } catch (error) {
+    errorMsg.value = error.response?.data?.message || 'Error al intentar forjar tu cuenta.'
+    console.error('Fallo en registro:', error)
+  }
+}
+</script>
+
 <template>
   <section id="registro"
     class="contenedor flex items-center justify-center min-h-[70vh] animate-in slide-in-from-right-4 duration-500">
@@ -55,34 +86,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '../stores/authStore'
-
-const nombre = ref('')
-const email = ref('')
-const password = ref('')
-const passwordConfirm = ref('')
-const router = useRouter()
-const authStore = useAuthStore()
-const errorMsg = ref('')
-
-const registro = async () => {
-  errorMsg.value = ''
-  if (password.value !== passwordConfirm.value) {
-    errorMsg.value = 'Las contraseñas no coinciden'
-    return
-  }
-  try {
-    const success = await authStore.register(nombre.value, email.value, password.value)
-    if (success) {
-      router.push('/perfil')
-    }
-  } catch (error) {
-    errorMsg.value = error.response?.data?.message || 'Error al intentar forjar tu cuenta.'
-    console.error('Fallo en registro:', error)
-  }
-}
-</script>

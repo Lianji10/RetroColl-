@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue'
-import { RouterView } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
 import Navegacion from './components/Navegacion.vue'
 import PieDePagina from './components/PieDePagina.vue'
 import ModalCarrito from './components/ModalCarrito.vue'
 import { useCartStore } from './stores/cartStore'
 import { useAuthStore } from './stores/authStore'
+
+const router = useRouter()
 
 const carritoAbierto = ref(false)
 const cartStore = useCartStore()
@@ -18,38 +20,18 @@ const toggleCarrito = () => {
   carritoAbierto.value = !carritoAbierto.value
 }
 
-const añadirAlCarrito = (producto) => {
-  cartStore.addToCart(producto)
-}
-
 const eliminarDelCarrito = (id) => {
   cartStore.removeFromCart(id)
 }
 
-const cambiarCantidad = (payload) => {
-  const { id, delta } = payload
-  const item = cartStore.items.find(item => item.id === id)
-  if (item) {
-    if (item.cantidad + delta <= 0) {
-      cartStore.removeFromCart(id)
-    } else {
-      item.cantidad += delta
-    }
-  }
-}
 
 const vaciarCarrito = () => {
   cartStore.clearCart()
 }
 
-const procesarCompra = async () => {
-  try {
-    await cartStore.checkout()
-    alert('¡Proceso de Checkout tramitado desde Vue hacia el Store!')
-    toggleCarrito()
-  } catch (err) {
-    alert('Hubo un error en la compra.')
-  }
+const procesarCompra = () => {
+  toggleCarrito()
+  router.push('/checkout')
 }
 </script>
 
@@ -58,14 +40,12 @@ const procesarCompra = async () => {
     <Navegacion :cantidad-carrito="cartStore.totalItems" @toggleCarrito="toggleCarrito" />
 
     <main>
-      <RouterView v-slot="{ Component }">
-        <component :is="Component" @añadir-al-carrito="añadirAlCarrito" />
-      </RouterView>
+      <RouterView />
     </main>
 
     <PieDePagina />
 
     <ModalCarrito :abierto="carritoAbierto" :items="cartStore.items" :total="cartStore.totalPrice" @cerrar="toggleCarrito"
-      @eliminar="eliminarDelCarrito" @cambiar-cantidad="cambiarCantidad" @vaciar="vaciarCarrito" @checkout="procesarCompra" />
+      @eliminar="eliminarDelCarrito" @vaciar="vaciarCarrito" @checkout="procesarCompra" />
   </div>
 </template>

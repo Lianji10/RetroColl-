@@ -43,6 +43,35 @@ const routes = [
     name: 'Perfil',
     component: () => import('../views/VistaPerfil.vue'),
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/editar-perfil',
+    name: 'EditarPerfil',
+    component: () => import('../views/VistaEditarPerfil.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('../views/VistaDashboard.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/checkout',
+    name: 'Checkout',
+    component: () => import('../views/VistaCheckout.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/ayuda',
+    name: 'Ayuda',
+    component: () => import('../views/VistaAyuda.vue')
+  },
+  // 404 - debe ser la última ruta
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('../views/Vista404.vue')
   }
 ]
 
@@ -50,14 +79,18 @@ import { useAuthStore } from '../stores/authStore'
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  scrollBehavior: () => ({ top: 0, behavior: 'smooth' }),
 })
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next('/login')
+    // Guardar ruta destino para redirigir tras el login
+    next({ path: '/login', query: { redirect: to.fullPath } })
+  } else if (to.meta.requiresAdmin && !authStore.isAdmin) {
+    next('/')
   } else if ((to.path === '/login' || to.path === '/registro') && authStore.isAuthenticated) {
     next('/perfil')
   } else {

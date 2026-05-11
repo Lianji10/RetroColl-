@@ -23,31 +23,45 @@ class CompraController extends Controller
         DB::beginTransaction();
         try {
             foreach ($request->items as $item) {
-                // Verificar si ya existe en COMPRA (es un artículo único)
-                $existente = Compra::where('id_producto', $item['id_producto'])->first();
-                if ($existente) {
-                    throw new \Exception("El producto " . $item['id_producto'] . " ya fue vendido.");
+                $prod = Producto::find($item['id_producto']);
+
+                // Verificar disponibilidad
+                if (!$prod || $prod->estado === 'Vendido') {
+                    throw new \Exception("El producto \"" . ($prod->titulo ?? $item['id_producto']) . "\" ya no está disponible.");
+                }
+
+                // Verificar que no sea el propio vendedor
+                if ($prod->id_vendedor === $usuario->id_usuario) {
+                    throw new \Exception("No puedes comprar tu propio producto.");
                 }
 
                 Compra::create([
                     'id_comprador' => $usuario->id_usuario,
-                    'id_producto' => $item['id_producto'],
+                    'id_producto'  => $item['id_producto'],
                     'precio_final' => $item['precio_unitario'],
                     'fecha_compra' => now(),
                 ]);
 
-                // Opcional: Actualizar el producto
-                $prod = Producto::find($item['id_producto']);
-                if ($prod) {
-                    $prod->estado = 'Vendido';
-                    $prod->save();
-                }
+                // Marcar como vendido
+                $prod->estado = 'Vendido';
+                $prod->save();
             }
             DB::commit();
             return response()->json(['message' => 'Compra realizada correctamente.'], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error al tramitar compra', 'error' => $e->getMessage()], 400);
+            return response()->json(['message' => $e->getMessage()], 400);
         }
+    }
+
+    /** Historial de compras del usuario autenticado */
+    public function misCompras(Request $request)
+    {
+        $compras = Compra::with(['producto.categoria', 'producto.plataforma', 'producto.vendedor'])
+            ->where('id_comprador', $request->user()->id_usuario)
+            ->orderBy('fecha_compra', 'desc')
+            ->get();
+
+        return response()->json($compras);
     }
 }

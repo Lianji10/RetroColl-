@@ -1,3 +1,30 @@
+<script setup>
+import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useAuthStore } from '../stores/authStore'
+
+const email = ref('')
+const password = ref('')
+const router = useRouter()
+const route = useRoute()
+const authStore = useAuthStore()
+const errorMsg = ref('')
+
+const login = async () => {
+  errorMsg.value = ''
+  try {
+    const success = await authStore.login(email.value, password.value)
+    if (success) {
+      const redirect = route.query.redirect || '/perfil'
+      router.push(redirect)
+    }
+  } catch (error) {
+    errorMsg.value = 'Credenciales incorrectas o error en el servidor.'
+    console.error('Login fallido:', error)
+  }
+}
+</script>
+
 <template>
   <section id="login"
     class="contenedor flex items-center justify-center min-h-[60vh] animate-in zoom-in-95 duration-500">
@@ -44,28 +71,3 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '../stores/authStore'
-
-const email = ref('')
-const password = ref('')
-const router = useRouter()
-const authStore = useAuthStore()
-const errorMsg = ref('')
-
-const login = async () => {
-  errorMsg.value = ''
-  try {
-    const success = await authStore.login(email.value, password.value)
-    if (success) {
-      router.push('/perfil')
-    }
-  } catch (error) {
-    errorMsg.value = 'Credenciales incorrectas o error en el servidor.'
-    console.error('Login fallido:', error)
-  }
-}
-</script>

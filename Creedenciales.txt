@@ -1,0 +1,7 @@
+Administrador
+Usuario  -> admin@retrocoll.com
+Password -> Admin1234!
+
+Usuario Normal
+Usuario  -> juan@gmail.com
+Password -> Serra2023

@@ -69,7 +69,7 @@ class ProductoController extends Controller
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
-        if ($producto->id_vendedor !== $request->user()->id_usuario) {
+        if ($producto->id_vendedor !== $request->user()->id_usuario && $request->user()->rol !== 'admin') {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
@@ -80,7 +80,13 @@ class ProductoController extends Controller
             'estado' => 'nullable|string|max:50',
             'id_categoria' => 'sometimes|exists:CATEGORIA,id_categoria',
             'id_plataforma' => 'sometimes|exists:PLATAFORMA,id_plataforma',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
+
+        if ($request->hasFile('imagen')) {
+            $path = $request->file('imagen')->store('productos', 'public');
+            $validated['imagen'] = '/storage/' . $path;
+        }
 
         $producto->update($validated);
 
