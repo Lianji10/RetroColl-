@@ -1,3 +1,7 @@
 {
+  "$schema": "https://schema.railpack.com",
+  "packages": {
+    "php": "8.4"
+  },
   "buildAptPackages": ["bison", "pkg-config", "libssl-dev", "libcurl4-openssl-dev", "libpng-dev", "libxml2-dev", "libonig-dev", "libzip-dev"]
 }
