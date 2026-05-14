@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
     public function up(): void
     {
@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_usuario');
             $table->string('nombre', 100);
             $table->string('email', 100)->unique();
+            $table->enum('rol', ['usuario', 'admin'])->default('usuario');
             $table->string('password', 255);
             $table->date('fecha_registro')->default(now());
             $table->decimal('valoracion_promedio', 3, 2)->default(0);
@@ -33,7 +34,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Revertir las migraciones.
      */
     public function down(): void
     {

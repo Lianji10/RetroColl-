@@ -49,7 +49,7 @@ export const useAuthStore = defineStore('auth', {
           this.user = response.data;
           localStorage.setItem('user', JSON.stringify(this.user));
         } catch (error) {
-          console.error('Error fetching user:', error);
+          console.error('Error al obtener el usuario:', error);
           this.token = null;
           this.user = null;
           localStorage.removeItem('token');

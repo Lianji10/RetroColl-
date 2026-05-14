@@ -3,6 +3,9 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import TarjetaProducto from '../components/TarjetaProducto.vue'
 import api from '../services/api'
+import { useAuthStore } from '../stores/authStore'
+
+const authStore = useAuthStore()
 
 const route = useRoute()
 
@@ -59,12 +62,16 @@ const productosFiltrados = computed(() => {
     const matchCat = !filtroCategoria.value || (nombreCat && nombreCat.toLowerCase() === filtroCategoria.value)
     const matchNombre = !filtroBusqueda.value || p.titulo?.toLowerCase().includes(filtroBusqueda.value.toLowerCase())
     const matchPlat = !filtroPlataforma.value || (p.plataforma?.nombre?.toLowerCase() === filtroPlataforma.value)
+    
+    // Filtro: No mostrar productos propios del usuario logueado
+    const noEsPropio = !authStore.isAuthenticated || p.id_vendedor !== authStore.user?.id_usuario
+    
     let matchPrecio = true
     if (filtroPrecio.value) {
       const [min, max] = filtroPrecio.value.split('-').map(Number)
       matchPrecio = p.precio >= min && p.precio <= max
     }
-    return matchEstado && matchCat && matchNombre && matchPrecio && matchPlat
+    return matchEstado && matchCat && matchNombre && matchPrecio && matchPlat && noEsPropio
   })
   // Ordenar
   if (ordenar.value === 'precio_asc') lista = [...lista].sort((a, b) => a.precio - b.precio)

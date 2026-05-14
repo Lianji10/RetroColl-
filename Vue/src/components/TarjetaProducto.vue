@@ -5,6 +5,8 @@ import { useAuthStore } from '../stores/authStore'
 import { useCartStore } from '../stores/cartStore'
 import api from '../services/api'
 
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
 const props = defineProps({
   producto: {
     type: Object,
@@ -60,7 +62,7 @@ const eliminarProducto = async () => {
 
     <div v-if="producto.imagen"
       class="mb-4 aspect-square bg-stone-100 rounded-lg overflow-hidden border border-stone-200">
-      <img :src="`http://localhost:8000${producto.imagen}`" :alt="producto.titulo" class="w-full h-full object-cover">
+      <img :src="`${apiUrl}${producto.imagen}`" :alt="producto.titulo" class="w-full h-full object-cover">
     </div>
     <div v-else
       class="mb-4 aspect-square bg-stone-100 rounded-lg flex items-center justify-center text-stone-400 text-xs text-center p-4 italic border border-stone-200">

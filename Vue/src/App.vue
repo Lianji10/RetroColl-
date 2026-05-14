@@ -45,6 +45,7 @@ const procesarCompra = () => {
 
     <PieDePagina />
 
+
     <ModalCarrito :abierto="carritoAbierto" :items="cartStore.items" :total="cartStore.totalPrice" @cerrar="toggleCarrito"
       @eliminar="eliminarDelCarrito" @vaciar="vaciarCarrito" @checkout="procesarCompra" />
   </div>

@@ -3,7 +3,9 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import TarjetaProducto from '../components/TarjetaProducto.vue'
 import api from '../services/api'
+import { useAuthStore } from '../stores/authStore'
 
+const authStore = useAuthStore()
 const router = useRouter()
 
 const busqueda = ref('')
@@ -23,8 +25,12 @@ onMounted(() => {
 })
 
 const productosDestacados = computed(() => {
-  // Filtramos los vendidos y tomamos los últimos 4 insertados
-  return productos.value.filter(p => p.estado !== 'Vendido').slice(0, 4)
+  // Filtramos los vendidos, los que son del propio usuario y tomamos los últimos 4
+  return productos.value.filter(p => {
+    const matchEstado = p.estado !== 'Vendido'
+    const noEsPropio = !authStore.isAuthenticated || p.id_vendedor !== authStore.user?.id_usuario
+    return matchEstado && noEsPropio
+  }).slice(0, 4)
 })
 
 const buscar = () => {

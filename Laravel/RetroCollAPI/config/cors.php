@@ -4,14 +4,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Cross-Origin Resource Sharing (CORS) Configuration
+    | Configuración de CORS (Cross-Origin Resource Sharing)
     |--------------------------------------------------------------------------
     |
-    | Here you may configure your settings for cross-origin resource sharing
-    | or "CORS". This determines what cross-origin operations may execute
-    | in web browsers. You are free to adjust these settings as needed.
-    |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+    | Aquí puede configurar los ajustes para el intercambio de recursos entre
+    | orígenes. Como el frontend y la API se sirven desde el mismo dominio
+    | en producción, se permiten todos los orígenes necesarios.
     |
     */
 
@@ -19,7 +17,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    'allowed_origins' => [
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'https://retrocoll.giancweb.com',
+    ],
 
     'allowed_origins_patterns' => [],
 

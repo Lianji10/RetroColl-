@@ -2,6 +2,7 @@
 import { useAuthStore } from '../stores/authStore';
 
 const authStore = useAuthStore();
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 defineProps({
   abierto: Boolean,
@@ -46,7 +47,7 @@ const esMio = (item) => {
         <div v-for="item in items" :key="item.id"
           class="bg-retro-gris border border-stone-200 rounded-xl p-4 flex gap-4 animate-in slide-in-from-right-4 duration-300">
           <div v-if="item.imagen" class="w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-stone-200">
-            <img :src="`http://localhost:8000${item.imagen}`" :alt="item.titulo" class="w-full h-full object-cover">
+            <img :src="`${apiUrl}${item.imagen}`" :alt="item.titulo" class="w-full h-full object-cover">
           </div>
           <div v-else
             class="w-20 h-20 bg-stone-100 rounded-lg flex items-center justify-center text-[10px] text-stone-400 italic border border-stone-200 shrink-0 uppercase font-mono">

@@ -7,6 +7,7 @@ import { useRouter } from 'vue-router'
 const cartStore = useCartStore()
 const authStore = useAuthStore()
 const router = useRouter()
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 const cartItems = computed(() => cartStore.items)
 const totalCarrito = computed(() => cartStore.totalPrice)
@@ -319,7 +320,7 @@ const procesarCompra = async () => {
           <div class="space-y-3 mb-5">
             <div v-for="item in cartItems" :key="item.id" class="flex items-center gap-3">
               <div v-if="item.imagen" class="w-12 h-12 rounded-lg overflow-hidden border border-stone-200 shrink-0">
-                <img :src="`http://localhost:8000${item.imagen}`" :alt="item.titulo"
+                <img :src="`${apiUrl}${item.imagen}`" :alt="item.titulo"
                   class="w-full h-full object-cover" />
               </div>
               <div v-else

@@ -3,5 +3,5 @@ Usuario  -> admin@retrocoll.com
 Password -> Admin1234!
 
 Usuario Normal
-Usuario  -> juan@gmail.com
-Password -> Serra2023
+Usuario  -> maria@retrocoll.com
+Password -> Usuario1234!

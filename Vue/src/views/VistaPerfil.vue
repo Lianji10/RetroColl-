@@ -140,25 +140,26 @@ const cerrarSesion = async () => {
       <!-- Mis Artículos / Mis Compras -->
       <div class="lg:col-span-2">
         <!-- Tabs -->
-        <div class="flex gap-2 mb-6 border-b-2 border-stone-200">
+        <!-- Tabs con scroll horizontal en móvil para evitar que se corten los botones -->
+        <div class="flex gap-1 mb-6 border-b-2 border-stone-200 overflow-x-auto scrollbar-hide whitespace-nowrap">
           <button @click="tabActivo = 'venta'"
             :class="tabActivo === 'venta' ? 'border-b-2 border-retro-amarillo text-retro-amarillo -mb-[2px]' : 'text-stone-500 hover:text-retro-amarillo'"
-            class="font-bold uppercase text-xs tracking-widest px-5 py-3 transition-colors">
+            class="font-bold uppercase text-xs tracking-widest px-3 sm:px-5 py-3 transition-colors shrink-0">
             En venta
           </button>
           <button @click="tabActivo = 'vendidos'"
             :class="tabActivo === 'vendidos' ? 'border-b-2 border-retro-amarillo text-retro-amarillo -mb-[2px]' : 'text-stone-500 hover:text-retro-amarillo'"
-            class="font-bold uppercase text-xs tracking-widest px-5 py-3 transition-colors">
+            class="font-bold uppercase text-xs tracking-widest px-3 sm:px-5 py-3 transition-colors shrink-0">
             Vendidos
           </button>
           <button @click="tabActivo = 'compras'"
             :class="tabActivo === 'compras' ? 'border-b-2 border-retro-amarillo text-retro-amarillo -mb-[2px]' : 'text-stone-500 hover:text-retro-amarillo'"
-            class="font-bold uppercase text-xs tracking-widest px-5 py-3 transition-colors">
+            class="font-bold uppercase text-xs tracking-widest px-3 sm:px-5 py-3 transition-colors shrink-0">
             Mis compras
           </button>
           <button @click="tabActivo = 'valoraciones'"
             :class="tabActivo === 'valoraciones' ? 'border-b-2 border-retro-amarillo text-retro-amarillo -mb-[2px]' : 'text-stone-500 hover:text-retro-amarillo'"
-            class="font-bold uppercase text-xs tracking-widest px-5 py-3 transition-colors">
+            class="font-bold uppercase text-xs tracking-widest px-3 sm:px-5 py-3 transition-colors shrink-0">
             Valoraciones
           </button>
         </div>
