@@ -238,6 +238,6 @@ Este script se encarga de instalar dependencias, copiar el `.env` de producción
 
 ## 👤 Autor
 
-**Juan Fernnández Puchol* — Estudiante de 2º DAW  
+*Juan Fernnández Puchol* — Estudiante de 2º DAW  
 Proyecto Intermodular · Grado Superior Desarrollo de Aplicaciones Web  
 Curso 2025–2026
