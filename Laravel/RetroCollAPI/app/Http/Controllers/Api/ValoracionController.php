@@ -10,11 +10,10 @@ use Illuminate\Support\Facades\Validator;
 
 class ValoracionController extends Controller
 {
-    /**
-     * Almacena una calificación recién creada en el almacenamiento.
-     */
+    // Crear una valoracion
     public function store(Request $request)
     {
+        // Validar campos
         $validator = Validator::make($request->all(), [
             'puntuacion' => 'required|integer|min:1|max:5',
             'comentario' => 'nullable|string|max:500',
@@ -25,12 +24,14 @@ class ValoracionController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
+        // Obtener usuario autenticado
         $id_emisor = auth()->id();
 
         if ($id_emisor == $request->id_receptor) {
             return response()->json(['message' => 'No puedes valorarte a ti mismo'], 400);
         }
 
+        // Guardar valoracion
         $valoracion = Valoracion::create([
             'puntuacion' => $request->puntuacion,
             'comentario' => $request->comentario,
@@ -45,13 +46,13 @@ class ValoracionController extends Controller
         ], 201);
     }
 
-    /**
-     * Obtiene todas las calificaciones para un usuario específico.
-     */
+    // Obtener valoraciones de un usuario
     public function userRatings($id)
     {
+        // Buscar usuario
         $usuario = Usuario::findOrFail($id);
-        
+
+        // Obtener valoraciones ordenadas por fecha
         $valoraciones = Valoracion::where('id_receptor', $id)
             ->with('emisor:id_usuario,nombre')
             ->orderBy('fecha', 'desc')

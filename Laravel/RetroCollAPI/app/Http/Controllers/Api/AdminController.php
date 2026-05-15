@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    // ─── USUARIOS ───────────────────────────────────────────────
+    //USUARIOS
 
-    /** Listar todos los usuarios */
+    // Listar todos los usuarios
     public function usuarios()
     {
         return response()->json(
@@ -21,13 +21,15 @@ class AdminController extends Controller
         );
     }
 
-    /** Cambiar el rol de un usuario */
+    // Cambiar el rol de un usuario
     public function cambiarRol(Request $request, $id)
     {
+        // Validar campos
         $request->validate([
             'rol' => 'required|in:usuario,admin',
         ]);
 
+        // Buscar usuario
         $usuario = Usuario::findOrFail($id);
 
         // No se puede cambiar el propio rol
@@ -40,9 +42,10 @@ class AdminController extends Controller
         return response()->json(['message' => 'Rol actualizado correctamente.', 'usuario' => $usuario]);
     }
 
-    /** Eliminar un usuario */
+    // Eliminar un usuario
     public function eliminarUsuario(Request $request, $id)
     {
+        // Buscar usuario
         $usuario = Usuario::findOrFail($id);
 
         if ($usuario->id_usuario === $request->user()->id_usuario) {
@@ -58,9 +61,9 @@ class AdminController extends Controller
         return response()->json(['message' => 'Usuario eliminado correctamente.']);
     }
 
-    // ─── PRODUCTOS ──────────────────────────────────────────────
+    // PRODUCTOS
 
-    /** Listar todos los productos (vista admin) */
+    // Listar todos los productos
     public function productos()
     {
         return response()->json(
@@ -70,7 +73,7 @@ class AdminController extends Controller
         );
     }
 
-    /** Eliminar cualquier producto (sin restricción de propietario) */
+    // Eliminar un producto
     public function eliminarProducto($id)
     {
         $producto = Producto::findOrFail($id);
@@ -79,9 +82,9 @@ class AdminController extends Controller
         return response()->json(['message' => 'Producto eliminado correctamente.']);
     }
 
-    // ─── ESTADÍSTICAS ───────────────────────────────────────────
+    // ESTADÍSTICAS
 
-    /** Estadísticas generales del panel */
+    // Estadísticas generales del panel
     public function estadisticas()
     {
         return response()->json([

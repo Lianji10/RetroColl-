@@ -8,19 +8,16 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
-    /**
-     * Mostrar listado de productos.
-     */
+    // Mostrar listado de productos
     public function index()
     {
         return Producto::with(['vendedor', 'categoria', 'plataforma'])->get();
     }
 
-    /**
-     * Almacenar un nuevo producto.
-     */
+    // Crear un nuevo producto
     public function store(Request $request)
     {
+        // Validar campos
         $validated = $request->validate([
             'titulo' => 'required|string|max:150',
             'descripcion' => 'nullable|string',
@@ -31,9 +28,11 @@ class ProductoController extends Controller
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
+        // Asignar vendedor y fecha
         $validated['id_vendedor'] = $request->user()->id_usuario;
         $validated['fecha_publicacion'] = now();
 
+        // Guardar imagen si se ha subido
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('productos', 'public');
             $validated['imagen'] = '/storage/' . $path;
@@ -44,9 +43,7 @@ class ProductoController extends Controller
         return response()->json($producto, 201);
     }
 
-    /**
-     * Mostrar un producto específico.
-     */
+    // Mostrar un producto
     public function show($id)
     {
         $producto = Producto::with(['vendedor', 'categoria', 'plataforma'])->find($id);
@@ -58,9 +55,7 @@ class ProductoController extends Controller
         return $producto;
     }
 
-    /**
-     * Actualizar un producto.
-     */
+    // Actualizar un producto
     public function update(Request $request, $id)
     {
         $producto = Producto::find($id);
@@ -69,10 +64,12 @@ class ProductoController extends Controller
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
+        // Verificar que sea el propietario o admin
         if ($producto->id_vendedor !== $request->user()->id_usuario && $request->user()->rol !== 'admin') {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
+        // Validar campos
         $validated = $request->validate([
             'titulo' => 'sometimes|string|max:150',
             'descripcion' => 'nullable|string',
@@ -83,6 +80,7 @@ class ProductoController extends Controller
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
+        // Actualizar imagen si se ha subido
         if ($request->hasFile('imagen')) {
             $path = $request->file('imagen')->store('productos', 'public');
             $validated['imagen'] = '/storage/' . $path;
@@ -93,9 +91,7 @@ class ProductoController extends Controller
         return response()->json($producto);
     }
 
-    /**
-     * Eliminar un producto.
-     */
+    // Eliminar un producto
     public function destroy(Request $request, $id)
     {
         $producto = Producto::find($id);
@@ -104,6 +100,7 @@ class ProductoController extends Controller
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
+        // Verificar que sea el propietario
         if ($producto->id_vendedor !== $request->user()->id_usuario) {
             return response()->json(['message' => 'No autorizado'], 403);
         }

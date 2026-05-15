@@ -10,14 +10,17 @@ use Illuminate\Support\Facades\DB;
 
 class CompraController extends Controller
 {
+    // Realizar una compra
     public function store(Request $request)
     {
+        // Validar campos
         $request->validate([
             'items' => 'required|array',
             'items.*.id_producto' => 'required|exists:PRODUCTO,id_producto',
             'items.*.precio_unitario' => 'required|numeric',
         ]);
 
+        // Obtener usuario autenticado
         $usuario = $request->user();
 
         DB::beginTransaction();
@@ -54,7 +57,7 @@ class CompraController extends Controller
         }
     }
 
-    /** Historial de compras del usuario autenticado */
+    // Historial de compras del usuario
     public function misCompras(Request $request)
     {
         $compras = Compra::with(['producto.categoria', 'producto.plataforma', 'producto.vendedor'])

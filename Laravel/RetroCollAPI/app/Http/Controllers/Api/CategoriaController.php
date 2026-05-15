@@ -8,11 +8,13 @@ use App\Models\Plataforma;
 
 class CategoriaController extends Controller
 {
+    // Listado de categorías
     public function index()
     {
         return Categoria::all();
     }
 
+    // Listado de plataformas
     public function plataformas()
     {
         return Plataforma::all();
