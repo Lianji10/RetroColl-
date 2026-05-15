@@ -5,9 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    /**
-     * Ejecutar las migraciones.
-     */
+    // Ejecutar las migraciones
     public function up(): void
     {
         Schema::create('COMPRA', function (Blueprint $table) {
@@ -18,6 +16,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('id_comprador');
             $table->unsignedBigInteger('id_producto')->unique();
 
+            // Foreign Keys
             $table->foreign('id_comprador')->references('id_usuario')->on('USUARIO');
             $table->foreign('id_producto')->references('id_producto')->on('PRODUCTO');
 
@@ -25,9 +24,7 @@ return new class extends Migration {
         });
     }
 
-    /**
-     * Revertir las migraciones.
-     */
+    // Revertir las migraciones
     public function down(): void
     {
         Schema::dropIfExists('COMPRA');

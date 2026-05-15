@@ -6,21 +6,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
-    /**
-     * Atributos predeterminados de usuario.
-     */
+    // Atributos predeterminados de usuario
     protected static ?string $password;
 
-    /**
-     * Estado predeterminado del modelo.
-     *
-     * @return array<string, mixed>
-     */
+    // Estado predeterminado del modelo
     public function definition(): array
     {
         return [
@@ -32,9 +23,7 @@ class UserFactory extends Factory
         ];
     }
 
-    /**
-     * Indicar que la dirección de correo electrónico del modelo debe estar sin verificar.
-     */
+    // Indicar que la dirección de correo electrónico del modelo debe estar sin verificar
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [

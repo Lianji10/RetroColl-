@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Ejecutar las migraciones.
-     */
+    // Ejecutar las migraciones
     public function up(): void
     {
         Schema::create('cache', function (Blueprint $table) {
@@ -24,9 +22,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Revertir las migraciones.
-     */
+    // Revertir las migraciones
     public function down(): void
     {
         Schema::dropIfExists('cache');

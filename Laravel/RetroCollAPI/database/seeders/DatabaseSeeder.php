@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Ejecucion de seeders.
-     */
+    // Ejecucion de seeders
     public function run(): void
     {
         // Categorías (Géneros de videojuegos)

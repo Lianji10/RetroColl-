@@ -5,9 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    /**
-     * Ejecucion de migraciones.
-     */
+    // Ejecutar las migraciones
     public function up(): void
     {
         Schema::create('VALORACION', function (Blueprint $table) {
@@ -19,6 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('id_emisor');
             $table->unsignedBigInteger('id_receptor');
 
+            // Foreign Keys
             $table->foreign('id_emisor')->references('id_usuario')->on('USUARIO');
             $table->foreign('id_receptor')->references('id_usuario')->on('USUARIO');
 
@@ -26,9 +25,7 @@ return new class extends Migration {
         });
     }
 
-    /**
-     * Revesrion de las migraciones.
-     */
+    // Revertir las migraciones
     public function down(): void
     {
         Schema::dropIfExists('VALORACION');
