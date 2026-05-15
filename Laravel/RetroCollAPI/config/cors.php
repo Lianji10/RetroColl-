@@ -1,22 +1,16 @@
 <?php
 
+// Configuración de CORS (Cross-Origin Resource Sharing)
+// Permite que el frontend Vue pueda consumir la API desde distintos orígenes
+
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Configuración de CORS (Cross-Origin Resource Sharing)
-    |--------------------------------------------------------------------------
-    |
-    | Aquí puede configurar los ajustes para el intercambio de recursos entre
-    | orígenes. Como el frontend y la API se sirven desde el mismo dominio
-    | en producción, se permiten todos los orígenes necesarios.
-    |
-    */
-
+    // Rutas afectadas por CORS
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
+    // Orígenes permitidos (local y producción)
     'allowed_origins' => [
         'http://localhost:5173',
         'http://127.0.0.1:5173',
@@ -31,6 +25,7 @@ return [
 
     'max_age' => 0,
 
+    // Necesario para enviar cookies con las peticiones
     'supports_credentials' => true,
 
 ];
