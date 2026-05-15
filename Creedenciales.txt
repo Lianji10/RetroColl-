@@ -1,7 +1,0 @@
-Administrador
-Usuario  -> admin@retrocoll.com
-Password -> Admin1234!
-
-Usuario Normal
-Usuario  -> maria@retrocoll.com
-Password -> Usuario1234!

@@ -1,12 +1,38 @@
+# Dependencias
 /node_modules
 /vendor
+
+# Variables de entorno (pueden contener credenciales)
 .env
+.env.production
+.env.local
+.env.*.local
+
+# Archivos de Laravel
 /public/storage
 /storage/*.key
 /bootstrap/cache/*.php
 .phpunit.result.cache
+
+# Bases de datos locales
+*.sqlite
+*.sqlite3
+*.db
+
+# Archivos de entorno de desarrollo
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
 .DS_Store
+Thumbs.db
+
+# Archivos sensibles / documentos internos
+Creedenciales.txt
+RetroColl_Memoria_TFG.txt
+
+# Archivos de editor
+.vscode/
+.idea/
+*.suo
+*.user
