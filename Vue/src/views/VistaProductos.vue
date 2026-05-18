@@ -21,13 +21,13 @@ const ordenar = ref('reciente')
 
 const cargarDatos = async () => {
   try {
-    const [resProd, resPlat] = await Promise.all([
+    const [resProd, resPlat, resCat] = await Promise.all([
       api.get('/productos'),
-      api.get('/plataformas')
+      api.get('/plataformas'),
+      api.get('/categorias')
     ])
     productos.value = resProd.data
-    const uniqueCats = new Set(resProd.data.map(p => p.categoria?.nombre).filter(Boolean))
-    categorias.value = Array.from(uniqueCats)
+    categorias.value = resCat.data.map(c => c.nombre)
     plataformas.value = resPlat.data.map(p => p.nombre)
   } catch (err) {
     console.error('Error cargando catálogo desde la API:', err)

@@ -2,10 +2,22 @@ import { defineStore } from 'pinia';
 import api from '../services/api';
 
 export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    user: JSON.parse(localStorage.getItem('user')) || null,
-    token: localStorage.getItem('token') || null,
-  }),
+  state: () => {
+    let userParsed = null;
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser && storedUser !== 'undefined') {
+        userParsed = JSON.parse(storedUser);
+      }
+    } catch (e) {
+      localStorage.removeItem('user');
+    }
+    
+    return {
+      user: userParsed,
+      token: localStorage.getItem('token') || null,
+    };
+  },
   getters: {
     isAuthenticated: (state) => !!state.token,
     isAdmin: (state) => state.user?.rol === 'admin',
