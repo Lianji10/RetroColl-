@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Usuario;
 use App\Models\Producto;
+use App\Models\Compra;
+use App\Models\Valoracion;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -52,6 +54,16 @@ class AdminController extends Controller
             return response()->json(['message' => 'No puedes eliminar tu propia cuenta desde el panel.'], 403);
         }
 
+        // Eliminar valoraciones (emitidas o recibidas)
+        Valoracion::where('id_emisor', $usuario->id_usuario)->orWhere('id_receptor', $usuario->id_usuario)->delete();
+
+        // Eliminar compras realizadas por el usuario
+        Compra::where('id_comprador', $usuario->id_usuario)->delete();
+
+        // Eliminar compras de los productos de este usuario
+        $productosIds = Producto::where('id_vendedor', $usuario->id_usuario)->pluck('id_producto');
+        Compra::whereIn('id_producto', $productosIds)->delete();
+
         // Eliminar sus productos primero
         Producto::where('id_vendedor', $usuario->id_usuario)->delete();
 
@@ -77,6 +89,10 @@ class AdminController extends Controller
     public function eliminarProducto($id)
     {
         $producto = Producto::findOrFail($id);
+
+        // Eliminar compras asociadas al producto
+        Compra::where('id_producto', $id)->delete();
+
         $producto->delete();
 
         return response()->json(['message' => 'Producto eliminado correctamente.']);

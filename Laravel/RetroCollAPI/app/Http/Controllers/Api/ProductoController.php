@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
+use App\Models\Compra;
 use Illuminate\Http\Request;
 
 class ProductoController extends Controller
@@ -12,6 +13,14 @@ class ProductoController extends Controller
     public function index()
     {
         return Producto::with(['vendedor', 'categoria', 'plataforma'])->get();
+    }
+
+    // Obtener los productos del usuario autenticado
+    public function misProductos(Request $request)
+    {
+        return Producto::with(['vendedor', 'categoria', 'plataforma'])
+            ->where('id_vendedor', $request->user()->id_usuario)
+            ->get();
     }
 
     // Crear un nuevo producto
@@ -104,6 +113,9 @@ class ProductoController extends Controller
         if ($producto->id_vendedor !== $request->user()->id_usuario) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
+
+        // Eliminar compras asociadas para evitar fallo de foreign key
+        Compra::where('id_producto', $producto->id_producto)->delete();
 
         $producto->delete();
 

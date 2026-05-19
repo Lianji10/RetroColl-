@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
             [
                 'nombre' => 'Carlos López',
                 'email' => 'carlos@retrocoll.com',
-                'rol' => 'usuario',
+                'rol' => 'usuario',  
                 'password' => Hash::make('Usuario1234!'),
                 'fecha_registro' => now(),
                 'valoracion_promedio' => 0,

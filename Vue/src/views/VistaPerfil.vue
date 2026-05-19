@@ -30,10 +30,8 @@ const formatFecha = (fecha) => {
 
 onMounted(async () => {
   try {
-    const response = await api.get('/productos')
-    const userProducts = response.data.filter(
-      p => p.id_vendedor === authStore.user?.id_usuario
-    )
+    const response = await api.get('/productos/mis-productos')
+    const userProducts = response.data
     misProductos.value = userProducts.filter(p => p.estado !== 'Vendido')
     misVendidos.value = userProducts.filter(p => p.estado === 'Vendido')
   } catch (error) {

@@ -13,6 +13,7 @@ Route::post('/registrar', [AuthController::class, 'registrar'])->middleware('thr
 Route::post('/login',     [AuthController::class, 'login'])->middleware('throttle:10,1');
 
 Route::get('/productos',      [ProductoController::class, 'index']);
+Route::get('/productos/mis-productos', [ProductoController::class, 'misProductos'])->middleware('auth:sanctum');
 Route::get('/productos/{id}', [ProductoController::class, 'show']);
 
 Route::get('/categorias',  [CategoriaController::class, 'index']);
